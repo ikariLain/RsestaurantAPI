@@ -6,6 +6,7 @@ namespace ResturangAPI.Models
     {
         [Key]
         public int TableId { get; set; }
+
         [Required, Range(1, 100)]
         public int SeatAmount { get; set; }
 

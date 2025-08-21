@@ -13,7 +13,7 @@ namespace ResturangAPI.Models
 
         public List<Table> Tables { get; set; }
 
-        public List<FoodOrder> FoodOrders { get; set; }
+        public List<ServiceOrder> FoodOrders { get; set; }
 
         public string status { get; set; } = "Pending";
         public DateTime BookingDate { get; set; } = DateTime.Now;

@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTOs\FoodOrder\**" />
+    <Content Remove="DTOs\FoodOrder\**" />
+    <EmbeddedResource Remove="DTOs\FoodOrder\**" />
+    <None Remove="DTOs\FoodOrder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
@@ -14,11 +21,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DTOs\FoodOrder\" />
-    <Folder Include="DTOs\Reservation\" />
   </ItemGroup>
 
 </Project>

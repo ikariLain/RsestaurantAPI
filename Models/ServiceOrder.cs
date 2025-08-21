@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ResturangAPI.Models
 {
-    public class FoodOrder
+    public class ServiceOrder
     {
         [Key]
         public int FoodOrderId { get; set; }
