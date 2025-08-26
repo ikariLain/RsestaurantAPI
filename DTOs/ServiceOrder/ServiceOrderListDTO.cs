@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ResturangAPI.DTOs.ServiceOrder
+﻿namespace ResturangAPI.DTOs.ServiceOrder
 {
-    public class ServiceOrderDTO
+    public class ServiceOrderListDTO
     {
-        public int ServiceOrderId { get; set; }
+        public int FoodOrderId { get; set; }
         public int FoodId_FK { get; set; }
         public int Reservation_FK { get; set; }
         public decimal TotalPriceAmount { get; set; }
