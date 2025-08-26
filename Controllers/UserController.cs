@@ -16,7 +16,7 @@ namespace ResturangAPI.Controllers
             _UserService = userService;
         }
         [HttpGet]
-        public async Task<ActionResult<List<UserDTO>>> GetAllUsers()
+        public async Task<ActionResult<List<CustomerDTO>>> GetAllUsers()
         {
             var users = await _UserService.GetAllUserAsync();
            
@@ -24,7 +24,7 @@ namespace ResturangAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> CreateUser(UserCreateDTO user)
+        public async Task<ActionResult<CustomerDTO>> CreateUser(UserCreateDTO user)
         {
             var userId = await _UserService.CreateUserAsync(user);
 

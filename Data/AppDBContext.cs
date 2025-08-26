@@ -15,6 +15,7 @@ namespace ResturangAPI.Data
         public DbSet<Food> Foods { get; set; }
         public DbSet<ServiceOrder> FoodOrders { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }
