@@ -12,7 +12,7 @@ namespace RestaurantAPI.Models
         public string LastName { get; set; }
         [Required, EmailAddress, MaxLength(200)]
         public string Email { get; set; }
-        [Required]
+        [Required, MaxLength(200)]
         public string PasswordHash { get; set; }
         [Required]
         public string Role { get; set; }
