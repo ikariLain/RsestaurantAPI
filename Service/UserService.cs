@@ -44,7 +44,6 @@ namespace RestaurantAPI.Service
             var deleteUser = await _userRepo.DeleteUserAsync(UserId);
 
             return deleteUser;
-
         }
 
         public async Task<List<UserDTO>> GetAllUserAsync()
@@ -87,8 +86,6 @@ namespace RestaurantAPI.Service
             return userDTO;
         }
 
-        //TODO: Implement UpdateUserAsync method 
-
         public async Task<UserDTO> UpdateUserAsync(int UserId, UserPatchDTO userPatch )
         {
             var existingUser = await _userRepo.GetByIdAsync(UserId);
@@ -121,20 +118,6 @@ namespace RestaurantAPI.Service
             };
             
             return UserDTO;
-
-        }
-
-        //TODO: Implement DeleteUserAsync method
-
-        Task<List<CustomerDTO>> IUserService.GetAllUserAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        //TODO: Implement GetByIdAsync method
-        Task<CustomerDTO> IUserService.GetByIdAsync(int UserId)
-        {
-            throw new NotImplementedException();
         }
     }
 }
