@@ -14,6 +14,8 @@ namespace ResturangAPI.Service
             _userRepo = userRepo;
         }
 
+        //TODO: Implement CreateUserAsync method
+
         public Task<int> CreateUser(UserCreateDTO UserDTO)
         {
             throw new NotImplementedException();
@@ -23,9 +25,12 @@ namespace ResturangAPI.Service
         {
             var user = new User
             {
-                Name = UserDTO.Name,
+                FirstName = UserDTO.FirstName,
+                LastName = UserDTO.LastName,
                 Email = UserDTO.Email,
-                PhoneNumber = UserDTO.PhoneNumber
+                PasswordHash = UserDTO.PasswordHash,
+                Role = UserDTO.Role
+
             };
 
             var NewUserid = await _userRepo.CreateUserAsync(user);
@@ -45,8 +50,12 @@ namespace ResturangAPI.Service
             var usersDTO = users.Select(u => new UserDTO
             {
                 UserId = u.UserId,
-                Name = u.Name,
-                Email = u.Email
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                PasswordHash = u.PasswordHash,
+                Role = u.Role
+
             }).ToList();
 
             return usersDTO;
@@ -64,18 +73,35 @@ namespace ResturangAPI.Service
             var userDTO = new UserDTO
             {
                 UserId = user.UserId,
-                Name = user.Name,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber
+                PasswordHash = user.PasswordHash,
+                Role = user.Role
+
             };
 
             return userDTO;
         }
+
+        //TODO: Implement UpdateUserAsync method 
 
         public Task<bool> UpdateUserAsync(int UserId)
         {
             throw new NotImplementedException();
         }
 
+        //TODO: Implement DeleteUserAsync method
+
+        Task<List<CustomerDTO>> IUserService.GetAllUserAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Implement GetByIdAsync method
+        Task<CustomerDTO> IUserService.GetByIdAsync(int UserId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
