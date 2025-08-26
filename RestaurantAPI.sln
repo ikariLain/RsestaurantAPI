@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturangAPI", "ResturangAPI.csproj", "{EF80C8CE-974F-4CC1-B5D6-6DC2271B9665}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResturantAPI", "RestaurantAPI.csproj", "{EF80C8CE-974F-4CC1-B5D6-6DC2271B9665}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
