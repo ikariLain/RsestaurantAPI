@@ -2,7 +2,7 @@
 
 namespace ResturangAPI.DTOs.User
 {
-    public class UserPutDTO
+    public class CustomerPutDTO
     {
         [Required(ErrorMessage = "Missing Name"), StringLength(50)]
         public string Name { get; set; }

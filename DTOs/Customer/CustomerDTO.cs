@@ -2,9 +2,9 @@
 
 namespace ResturangAPI.DTOs.User
 {
-    public class UserDTO
+    public class CustomerDTO
     {
-        public int UserId { get; set; }
+        public int CustomserId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }

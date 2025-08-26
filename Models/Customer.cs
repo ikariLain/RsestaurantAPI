@@ -2,10 +2,11 @@
 
 namespace ResturangAPI.Models
 {
-    public class User
+    //TODO: Change this obj to Customer and make a new obj for User to handle login and roles
+    public class Customer
     {
         [Key]
-        public int UserId { get; set; }
+        public int CustomerId { get; set; }
         [Required, StringLength(50)]
         public string Name { get; set; }
         [Required,EmailAddress, StringLength(50)]

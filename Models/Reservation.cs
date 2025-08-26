@@ -7,9 +7,9 @@ namespace ResturangAPI.Models
     {
         [Key]
         public int BookingOrderId { get; set; }
-        [ForeignKey("User")]
-        public int User_FK { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("Customer")]
+        public int Customer_FK { get; set; }
+        public virtual Customer Customer { get; set; }
 
         public List<Table> Tables { get; set; }
 

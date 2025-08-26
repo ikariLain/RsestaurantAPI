@@ -2,8 +2,10 @@
 
 namespace ResturangAPI.DTOs.User
 {
-    public class UserCreateDTO
+    public class CustomerCreateDTO
     {
+        public int CustomerId { get; set; }
+
         [Required(ErrorMessage = "Missing Name"), StringLength(50, ErrorMessage = "Name is over 50 character")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Missing Email"),EmailAddress, StringLength(50, ErrorMessage = "Email is over 50 character")]

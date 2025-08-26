@@ -2,7 +2,7 @@
 
 namespace ResturangAPI.DTOs.User
 {
-    public class UserPatchDTO
+    public class CustomerPatchDTO
     {
         [Required(ErrorMessage = "Can't have more than 50 characters "), StringLength(50, ErrorMessage = "Can't have more than 50")]
         public string? Name { get; set; }
