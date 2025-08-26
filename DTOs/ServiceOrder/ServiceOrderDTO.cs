@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ResturangAPI.DTOs.ServiceOrder
+namespace RestaurantAPI.DTOs.ServiceOrder
 {
     public class ServiceOrderDTO
     {

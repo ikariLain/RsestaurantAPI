@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ResturangAPI.Models;
+using RestaurantAPI.Models;
 
-namespace ResturangAPI.Data
+namespace RestaurantAPI.Data
 {
     public class AppDBContext : DbContext
     {

@@ -1,14 +1,14 @@
 
 using Microsoft.EntityFrameworkCore;
-using ResturangAPI.Respositories;
-using ResturangAPI.Respositories.IRepositories;
-using ResturangAPI.Service.IService;
-using ResturangAPI.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using RestaurantAPI.Respositories;
+using RestaurantAPI.Respositories.IRepositories;
+using RestaurantAPI.Service;
+using RestaurantAPI.Service.IService;
 
-namespace ResturangAPI
+namespace RestaurantAPI
 {
     public class Program
     {

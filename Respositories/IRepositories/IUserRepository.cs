@@ -1,7 +1,7 @@
-﻿using ResturangAPI.Models;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using RestaurantAPI.Models;
 
-namespace ResturangAPI.Respositories.IRepositories
+namespace RestaurantAPI.Respositories.IRepositories
 {
     public interface IUserRepository
     {

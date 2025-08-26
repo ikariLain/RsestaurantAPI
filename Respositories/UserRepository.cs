@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ResturangAPI.Data;
-using ResturangAPI.Models;
-using ResturangAPI.Respositories.IRepositories;
+using RestaurantAPI.Data;
+using RestaurantAPI.Models;
+using RestaurantAPI.Respositories.IRepositories;
 
-namespace ResturangAPI.Respositories
+namespace RestaurantAPI.Respositories
 {
     public class UserRepository : IUserRepository
     {

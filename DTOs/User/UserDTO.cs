@@ -1,4 +1,4 @@
-﻿namespace ResturangAPI.DTOs.User
+﻿namespace RestaurantAPI.DTOs.User
 {
     public class UserDTO 
     {

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ResturangAPI.Data;
-using ResturangAPI.DTOs;
-using ResturangAPI.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using RestaurantAPI.Data;
+using RestaurantAPI.DTOs;
+using RestaurantAPI.Models;
 
-namespace ResturangAPI.Controllers
+namespace RestaurantAPI.Controllers
 {
     public class AuthController : Controller
     {

@@ -1,9 +1,9 @@
-﻿using ResturangAPI.DTOs.User;
-using ResturangAPI.Models;
-using ResturangAPI.Respositories.IRepositories;
-using ResturangAPI.Service.IService;
+﻿using RestaurantAPI.DTOs.User;
+using RestaurantAPI.Models;
+using RestaurantAPI.Respositories.IRepositories;
+using RestaurantAPI.Service.IService;
 
-namespace ResturangAPI.Service
+namespace RestaurantAPI.Service
 {
     public class UserService : IUserService
     {

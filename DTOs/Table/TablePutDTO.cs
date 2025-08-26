@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ResturangAPI.DTOs.Table
+namespace RestaurantAPI.DTOs.Table
 {
     public class TablePutDTO
     {

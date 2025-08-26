@@ -1,4 +1,4 @@
-﻿namespace ResturangAPI.DTOs.Food
+﻿namespace RestaurantAPI.DTOs.Food
 {
     public class FoodPutDTO
     {

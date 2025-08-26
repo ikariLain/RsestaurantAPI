@@ -1,6 +1,6 @@
-﻿using ResturangAPI.DTOs.User;
+﻿using RestaurantAPI.DTOs.User;
 
-namespace ResturangAPI.Service.IService
+namespace RestaurantAPI.Service.IService
 {
     public interface IUserService
     {

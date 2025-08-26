@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ResturangAPI.DTOs.ServiceOrder
+namespace RestaurantAPI.DTOs.ServiceOrder
 {
     public class ServiceOrderPutDTO
     {

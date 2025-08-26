@@ -1,4 +1,4 @@
-﻿namespace ResturangAPI.DTOs.Table
+﻿namespace RestaurantAPI.DTOs.Table
 {
     public class TableDTO
     {

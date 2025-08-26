@@ -1,6 +1,6 @@
-﻿using ResturangAPI.Models;
+﻿using RestaurantAPI.Models;
 
-namespace ResturangAPI.DTOs.Reservation
+namespace RestaurantAPI.DTOs.Reservation
 {
     public class ReservationDTO
     {
