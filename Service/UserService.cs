@@ -15,12 +15,6 @@ namespace RestaurantAPI.Service
         }
 
         //TODO: Implement CreateUserAsync method
-
-        public Task<int> CreateUser(UserCreateDTO UserDTO)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<int> CreateUserAsync(UserCreateDTO UserDTO)
         {
             var user = new User
@@ -38,9 +32,19 @@ namespace RestaurantAPI.Service
             return NewUserid; 
         }
 
-        public Task<bool> DeleteUserAsync(int UserId)
+        public async Task<bool> DeleteUserAsync(int UserId)
         {
-            throw new NotImplementedException();
+            var existingUser = await _userRepo.GetByIdAsync(UserId);
+            
+            if (existingUser == null )
+            {
+                return false;
+            }
+            
+            var deleteUser = await _userRepo.DeleteUserAsync(UserId);
+
+            return deleteUser;
+
         }
 
         public async Task<List<UserDTO>> GetAllUserAsync()
@@ -67,7 +71,7 @@ namespace RestaurantAPI.Service
 
             if (user == null)
             {
-                return null; // or throw an exception, depending on your error handling strategy
+                return null; 
             }
 
             var userDTO = new UserDTO
@@ -78,7 +82,6 @@ namespace RestaurantAPI.Service
                 Email = user.Email,
                 PasswordHash = user.PasswordHash,
                 Role = user.Role
-
             };
 
             return userDTO;
@@ -86,9 +89,39 @@ namespace RestaurantAPI.Service
 
         //TODO: Implement UpdateUserAsync method 
 
-        public Task<bool> UpdateUserAsync(int UserId)
+        public async Task<UserDTO> UpdateUserAsync(int UserId, UserPatchDTO userPatch )
         {
-            throw new NotImplementedException();
+            var existingUser = await _userRepo.GetByIdAsync(UserId);
+
+            if (existingUser == null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrEmpty(userPatch.FirstName))
+                existingUser.FirstName = userPatch.FirstName;
+            if (!string.IsNullOrEmpty(userPatch.LastName))
+                existingUser.LastName = userPatch.LastName;
+            if (!string.IsNullOrEmpty(userPatch.Email))
+                existingUser.Email = userPatch.Email;
+            if (!string.IsNullOrEmpty(userPatch.PasswordHash))
+                existingUser.PasswordHash = userPatch.PasswordHash;
+            if (!string.IsNullOrEmpty(userPatch.Role))
+                existingUser.Role = userPatch.Role;
+            
+            var updateUserDB = await _userRepo.UpdateUserAsync(existingUser);
+            
+            var UserDTO = new UserDTO
+            {
+                FirstName = existingUser.FirstName,
+                LastName = existingUser.LastName,
+                Email = existingUser.Email,
+                PasswordHash = existingUser.PasswordHash,
+                Role = existingUser.Role
+            };
+            
+            return UserDTO;
+
         }
 
         //TODO: Implement DeleteUserAsync method

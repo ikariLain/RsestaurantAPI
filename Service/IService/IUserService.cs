@@ -7,9 +7,7 @@ namespace RestaurantAPI.Service.IService
         Task<List<CustomerDTO>> GetAllUserAsync();
         Task<CustomerDTO> GetByIdAsync(int UserId);
         Task<int> CreateUserAsync(UserCreateDTO UserDTO);
-        Task<bool> UpdateUserAsync(int UserId);
+        Task<UserDTO> UpdateUserAsync(int UserId, UserPatchDTO UserPatch);
         Task<bool> DeleteUserAsync(int UserId);
-
-
     }
 }
