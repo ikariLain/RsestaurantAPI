@@ -66,7 +66,7 @@ namespace RestaurantAPI.Controllers
 
             return Ok(new {token});
         }
-        //TODO: Change later
+
         private string GenerateJwtToken(User user)
         {
            var tokenHandler = new JwtSecurityTokenHandler();
