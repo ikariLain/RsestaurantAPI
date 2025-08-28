@@ -1,18 +1,18 @@
 using RestaurantAPI.DTOs.Table;
+using RestaurantAPI.Models;
+using RestaurantAPI.Respositories;
 using RestaurantAPI.Service.IService;
 
 namespace RestaurantAPI.Service;
 
 public class TableService : ITableService
 {
-    private readonly ITableService _tableRepo;
+    private readonly TableRepository _tableRepo;
 
-    public TableService(ITableService tableRepo)
+    public TableService(TableRepository tableRepo)
     {
         _tableRepo = tableRepo;
     }
-    
-    //TODO: Add all methods 
     
     public async Task<List<TableDTO>> GetAllTableAsync()
     {
@@ -27,7 +27,6 @@ public class TableService : ITableService
         }).ToList();
         
         return tableDTO;
-            
     }
 
     public async Task<TableDTO> GetTableByIdAsync(int TableId)
@@ -45,24 +44,64 @@ public class TableService : ITableService
             SeatAmount = existingTable.SeatAmount,
             IsAvailable = existingTable.IsAvailable
         };
-
-
         return tableDTO;
 
     }
 
-    public Task<int> CreateTableAsync(TableDTO TableDTO)
+    public Task<int> CreateTableAsync(TableCreateDTO TableDTO)
     {
-        throw new NotImplementedException();
+        var table = new Table
+        {
+            TableId = TableDTO.TableId,
+            SeatAmount = TableDTO.SeatAmount,
+            IsAvailable = TableDTO.IsAvailable
+        };
+
+        var newTableId = _tableRepo.CreateTableAsync(table);
+
+        return newTableId;
     }
 
-    public Task<bool> UpdateTableAsync(TableDTO TableDTO)
+    public async Task<TableDTO> UpdateTableAsync(int TableId, TablePatchDTO tablePatch)
     {
-        throw new NotImplementedException();
+        var existingTable = await _tableRepo.GetTableByIdAsync(TableId);
+
+        if (existingTable == null)
+        {
+            return null;
+        }
+
+        if(tablePatch.SeatAmount.HasValue)
+            existingTable.SeatAmount = tablePatch.SeatAmount.Value;
+
+        if (tablePatch.IsAvailable.HasValue)
+            existingTable.IsAvailable = tablePatch.IsAvailable.Value;
+
+        var updateTableDB = await _tableRepo.UpdateTableAsync(existingTable);
+
+
+
+
+
+        return new TableDTO
+        {
+            TableId = existingTable.TableId,
+            SeatAmount = existingTable.SeatAmount,
+            IsAvailable = existingTable.IsAvailable
+        };
     }
 
-    public Task<bool> DeleteTableAsync(int id)
+    public async Task<bool> DeleteTableAsync(int id)
     {
-        throw new NotImplementedException();
+        var exsistingTable = await _tableRepo.DeleteTableAsync(id);
+
+        if (exsistingTable == false)
+        {
+            return false;
+        }
+
+        var deleteTable = await _tableRepo.DeleteTableAsync(id);
+
+        return deleteTable;
     }
 }
