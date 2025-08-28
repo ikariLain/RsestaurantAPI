@@ -6,6 +6,8 @@ using RestaurantAPI.Service.IService;
 
 namespace RestaurantAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class TableController : Controller
     {
         private readonly ITableService _TableService;
@@ -15,15 +17,12 @@ namespace RestaurantAPI.Controllers
             _TableService = tableService;
         }
 
-
         [HttpGet]
-        [Route("api/[controller]/getAllTable")]
         public async Task<ActionResult<TableDTO>> GetAllTable()
         {
             var tables = await _TableService.GetAllTableAsync();
 
             return Ok(tables);
-
         }
 
         [HttpPost]
@@ -66,5 +65,17 @@ namespace RestaurantAPI.Controllers
             }
             return Ok(table);
         }
+        [HttpGet]
+        [Route("GetAllAvailableTable")]
+        public async Task<ActionResult<TableDTO>> GetAllAvailableTable()
+        {
+            var table = await _TableService.GetAllAvailableTableAsync();
+            if (table == null)
+            {
+                return NotFound();
+            }
+            return Ok(table);
+        }
+
     }
 }

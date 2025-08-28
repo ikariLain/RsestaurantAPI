@@ -34,6 +34,13 @@ namespace RestaurantAPI.Respositories
             return false;
         }
 
+        public Task<Table> GetAllAvailableTableAsync()
+        {
+            var AvailableTable = _context.Tables.FirstOrDefaultAsync(t => t.IsAvailable == true);
+
+            return AvailableTable;
+        }
+
         public Task<List<Table>> GetAllTableAsync()
         {
             var AllTables = _context.Tables.ToListAsync();

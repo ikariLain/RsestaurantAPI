@@ -48,6 +48,26 @@ public class TableService : ITableService
 
     }
 
+    public Task<TableDTO> GetAllAvailableTableAsync()
+    {
+        var availableTable = _tableRepo.GetAllAvailableTableAsync();
+
+        if (availableTable == null)
+        {
+            return null;
+        }
+
+        var tableDTO = availableTable.ContinueWith(t => new TableDTO
+        {
+            TableId = t.Result.TableId,
+            SeatAmount = t.Result.SeatAmount,
+            IsAvailable = t.Result.IsAvailable
+        });
+
+        return tableDTO;
+    }
+
+
     public Task<int> CreateTableAsync(TableCreateDTO TableDTO)
     {
         var table = new Table
