@@ -99,10 +99,6 @@ public class TableService : ITableService
 
         var updateTableDB = await _tableRepo.UpdateTableAsync(existingTable);
 
-
-
-
-
         return new TableDTO
         {
             TableId = existingTable.TableId,

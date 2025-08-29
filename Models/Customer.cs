@@ -2,7 +2,6 @@
 
 namespace RestaurantAPI.Models
 {
-    //TODO: Change this obj to Customer and make a new obj for User to handle login and roles
     public class Customer
     {
         [Key]

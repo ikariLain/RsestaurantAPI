@@ -26,6 +26,8 @@ namespace RestaurantAPI
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ITableService, TableService>();
             builder.Services.AddScoped<ITableRepostory, TableRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 
             builder.Services.AddControllers();
