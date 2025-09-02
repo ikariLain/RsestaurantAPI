@@ -36,12 +36,6 @@ public class RerservationRepository : IReservationRepository
         
         return Reservation.BookingOrderId;
     }
-
-    public Task<bool> UpdateReservationAsync(Reservation reservation)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<bool> UpdatereservationAsync(Reservation reservation)
     {
         _context.Reservations.Update(reservation);
