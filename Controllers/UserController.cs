@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.DTOs.User;
 using RestaurantAPI.Service.IService;
@@ -16,6 +17,7 @@ namespace RestaurantAPI.Controllers
             _UserService = userService;
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<CustomerDTO>>> GetAllUsers()
         {
             var users = await _UserService.GetAllUserAsync();
@@ -24,12 +26,26 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CustomerDTO>> CreateUser(UserCreateDTO user)
         {
             var userId = await _UserService.CreateUserAsync(user);
 
             return CreatedAtAction(nameof(GetAllUsers), new { id = userId}); 
             
+        }
+
+        [HttpDelete("{Id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            var success  = await _UserService.DeleteUserAsync(id);
+            
+            if (!success)
+                return NotFound();
+            
+            
+            return NoContent();
         }
 
     }

@@ -34,9 +34,9 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<TableDTO>> DelateTable(int id)
+        public async Task<ActionResult<TableDTO>> DelateTable(int Id)
         {
-            var isDeleted = await _TableService.DeleteTableAsync(id);
+            var isDeleted = await _TableService.DeleteTableAsync(Id);
             if (isDeleted)
             {
                 return NoContent();

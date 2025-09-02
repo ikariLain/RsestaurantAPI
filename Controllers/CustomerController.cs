@@ -42,7 +42,7 @@ namespace RestaurantAPI.Controllers
         {
             var isUpdated = await _CustomerService.UpdateCustomerAsync(Id, customer);
 
-            if (isUpdated = null)
+            if (isUpdated == null)
             {
                 return NotFound();
             }

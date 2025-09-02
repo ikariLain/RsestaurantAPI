@@ -15,11 +15,12 @@ namespace RestaurantAPI.Models
 
         public List<ServiceOrder> FoodOrders { get; set; }
 
-        public string status { get; set; } = "Pending";
-        public DateTime BookingDate { get; set; } = DateTime.Now;
-
+        public string status { get; set; } 
+        public DateOnly BookingDate { get; set; } 
+        public TimeSpan? Duration { get; set; }
         public int AmountOfGuests { get; set; }
 
         public int AmountOfTables { get; set; }
+        
     }
 }
