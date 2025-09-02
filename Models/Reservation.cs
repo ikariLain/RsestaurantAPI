@@ -6,7 +6,7 @@ namespace RestaurantAPI.Models
     public class Reservation
     {
         [Key]
-        public int BookingOrderId { get; set; }
+        public int ReservationId { get; set; }
         [ForeignKey("Customer")]
         public int Customer_FK { get; set; }
         public virtual Customer Customer { get; set; }

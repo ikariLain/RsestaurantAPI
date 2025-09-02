@@ -34,7 +34,7 @@ public class RerservationRepository : IReservationRepository
         _context.Reservations.Add(reservation);
         await _context.SaveChangesAsync();
         
-        return Reservation.BookingOrderId;
+        return Reservation.ReservationId;
     }
     public async Task<bool> UpdatereservationAsync(Reservation reservation)
     {
