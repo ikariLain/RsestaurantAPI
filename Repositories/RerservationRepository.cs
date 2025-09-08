@@ -15,15 +15,15 @@ public class RerservationRepository : IReservationRepository
     }
     
     
-    public Task<List<Reservation>> GetAllReservationsAsync()
+    public async Task<List<Reservation>> GetAllReservationsAsync()
     {
-        var reservationList = _context.Reservations.ToListAsync();
+        var reservationList = await _context.Reservations.ToListAsync();
         return reservationList;
     }
 
-    public Task<Reservation> GetReservationByIdAsync(int id)
+    public async Task<Reservation> GetReservationByIdAsync(int id)
     {
-        var reservation = _context.Reservations
+        var reservation = await _context.Reservations
             .FirstOrDefaultAsync(r => r.ReservationId == id );
         
         return reservation;
