@@ -18,7 +18,7 @@ namespace RestaurantAPI.Service
             
         }
 
-        private async Task<bool> IsTableAviableAsync(List<int> tableId,DateOnly bookingdate , DateTime StartTime )
+        private async Task<bool> IsTableAvailableAsync(List<int> tableId,DateOnly bookingdate , DateTime StartTime )
         {
             var checkTable = await _reservationRepo.AreTablesAvailableAsync(tableId, bookingdate, StartTime );
 
@@ -29,21 +29,40 @@ namespace RestaurantAPI.Service
         public async Task<int> CreateReservation(ReservationCreateDTO reservationDTO)
         {
 
-            var checkAvaiableTable = await IsTableAviableAsync(reservationDTO.Tables, reservationDTO.BookingDate, reservationDTO.StartTime);
+            var tablesAvailable = await IsTableAvailableAsync(reservationDTO.Tables, reservationDTO.BookingDate, reservationDTO.StartTime);
+            if (!tablesAvailable)
+            {
+                throw new Exception("Selected tables are not available at this time.");
+            }
 
 
+            var tables = await _tableRepo.GetListOfTablesByIdsAsync(reservationDTO.Tables);
 
             var reservation = new Reservation
             {
-
+                Customer_FK = reservationDTO.User_FK,
+                Tables = tables,
+                status = reservationDTO.status ?? "Pending",
+                BookingDate = reservationDTO.BookingDate,
+                StartTime = reservationDTO.StartTime,
+                Duration = reservationDTO.Duration ?? TimeSpan.FromHours(2),
+                AmountOfGuests = reservationDTO.AmountOfGuests,
+                AmountOfTables = reservationDTO.AmountOfTables
             };
 
-            return; 
+            
+            var createdReservation = await _reservationRepo.CreateReservationAsync(reservation);
+
+
+            return createdReservation;
         }
 
-        public Task DeleteReservationAsync(int id)
+        public async Task DeleteReservationAsync(int id)
         {
-            throw new NotImplementedException();
+            var reservation = await _reservationRepo.GetReservationByIdAsync(id);
+            if (reservation == null) throw new Exception("Reservation not found");
+
+            await _reservationRepo.DeleteReservationAsync(reservation.ReservationId);
         }
 
         public Task<List<ReservationDTO>> GetAllReservationAsync()
@@ -56,9 +75,32 @@ namespace RestaurantAPI.Service
             throw new NotImplementedException();
         }
 
-        public Task<ReservationDTO> UpdateReservationAsync(int id, ReservationPatchDTO reservationPatchDTO)
+        public async Task<ReservationDTO> UpdateReservationAsync(int id, ReservationPatchDTO reservationPatchDTO)
         {
-            throw new NotImplementedException();
+            var reservation = await _reservationRepo.GetReservationByIdAsync(id);
+            if (reservation == null) throw new Exception("Reservation not found");
+
+            
+            if (reservationPatchDTO.Status != null)
+                reservation.status = reservationPatchDTO.Status;
+
+            if (reservationPatchDTO.StartTime.HasValue)
+                reservation.StartTime = reservationPatchDTO.StartTime.Value;
+
+            if (reservationPatchDTO.Duration.HasValue)
+                reservation.Duration = reservationPatchDTO.Duration.Value;
+
+            var updated = await _reservationRepo.UpdatereservationAsync(reservation);
+            if (!updated) throw new Exception("Failed to update reservation.");
+
+            return new ReservationDTO
+            {
+                ReservationId = reservation.ReservationId,
+                BookingDate = reservation.BookingDate,
+                StartTime = reservation.StartTime,
+                AmountOfGuests = reservation.AmountOfGuests,
+                Status = reservation.status
+            };
         }
     }
 }
