@@ -9,4 +9,5 @@ public interface IReservationRepository
     Task<int> CreateReservationAsync(Reservation reservation);
     Task<bool> UpdatereservationAsync(Reservation reservation);
     Task<bool> DeleteReservationAsync(int id);
+    Task<bool> AreTablesAvailableAsync(List<int> tableId, DateOnly bookingdate, DateTime StartTime);
 }

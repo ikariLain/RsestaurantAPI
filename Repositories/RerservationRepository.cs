@@ -24,7 +24,7 @@ public class RerservationRepository : IReservationRepository
     public Task<Reservation> GetReservationByIdAsync(int id)
     {
         var reservation = _context.Reservations
-            .FirstOrDefaultAsync(r => r.BookingOrderId == id );
+            .FirstOrDefaultAsync(r => r.ReservationId == id );
         
         return reservation;
     }
@@ -34,7 +34,7 @@ public class RerservationRepository : IReservationRepository
         _context.Reservations.Add(reservation);
         await _context.SaveChangesAsync();
         
-        return Reservation.ReservationId;
+        return reservation.ReservationId;
     }
     public async Task<bool> UpdatereservationAsync(Reservation reservation)
     {
@@ -47,11 +47,10 @@ public class RerservationRepository : IReservationRepository
         }
         return false;
     }
-
     public async Task<bool> DeleteReservationAsync(int id)
     {
         var RowAffected = await _context.Reservations
-            .Where(r => r.BookingOrderId == id).ExecuteDeleteAsync();
+            .Where(r => r.ReservationId == id).ExecuteDeleteAsync();
 
         if (RowAffected > 0)
         {
@@ -61,4 +60,21 @@ public class RerservationRepository : IReservationRepository
         return false;
 
     }
+
+    public async Task<bool> AreTablesAvailableAsync(List<int> tableId, DateOnly bookingdate, DateTime StartTime)
+    {
+        var endTime = StartTime.AddHours(2);
+
+       var isTableAvailable = !await _context.Reservations
+            .AnyAsync(r =>
+            r.BookingDate == bookingdate &&
+            r.Tables.Any(t => tableId.Contains(t.TableId)) &&
+            (r.StartTime < endTime &&
+            r.StartTime.AddHours(2) > StartTime)
+       );
+
+        return isTableAvailable;
+
+    }
+
 }
