@@ -48,12 +48,23 @@ namespace RestaurantAPI.Respositories
             return AllTables;
         }
 
-        public async Task<Table> GetTableByIdAsync(int Id)
+        public async Task<List<Table>> GetListOfTablesByIdsAsync(List<int> tableIds)
         {
-            var Table = await _context.Tables.FirstOrDefaultAsync(t => t.TableId == Id);
+            var Table = await _context.Tables
+                .Where
+                (t => tableIds.Contains(t.TableId))
+            .ToListAsync();
 
             return Table;
         }
+
+        public async Task<Table> GetTableByIdAsync(int tableId)
+        {
+            var table = await _context.Tables
+                .FirstOrDefaultAsync(t => t.TableId == tableId);
+            return table;
+        }
+
 
         public async Task<bool> UpdateTableAsync(Table table)
         {
