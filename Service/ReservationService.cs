@@ -67,12 +67,38 @@ namespace RestaurantAPI.Service
 
         public Task<List<ReservationDTO>> GetAllReservationAsync()
         {
-            throw new NotImplementedException();
+            var reservations = _reservationRepo.GetAllReservationsAsync();
+
+            if (reservations == null) throw new Exception("No reservations found");
+
+            var reservationDTOs = reservations.Result.Select(r => new ReservationDTO
+            {
+                ReservationId = r.ReservationId,
+                BookingDate = r.BookingDate,
+                StartTime = r.StartTime,
+                AmountOfGuests = r.AmountOfGuests,
+                Status = r.status
+            }).ToList();
+
+            return Task.FromResult(reservationDTOs);
         }
 
         public Task<ReservationDTO> GetReservationIdAsync(int id)
         {
-            throw new NotImplementedException();
+           var reservation = _reservationRepo.GetReservationByIdAsync(id);
+
+            if (reservation == null) throw new Exception("Reservation not found");
+
+            var reservationDTO = reservation.ContinueWith(r => new ReservationDTO
+            {
+                ReservationId = r.Result.ReservationId,
+                BookingDate = r.Result.BookingDate,
+                StartTime = r.Result.StartTime,
+                AmountOfGuests = r.Result.AmountOfGuests,
+                Status = r.Result.status
+            });
+
+            return reservationDTO;
         }
 
         public async Task<ReservationDTO> UpdateReservationAsync(int id, ReservationPatchDTO reservationPatchDTO)
