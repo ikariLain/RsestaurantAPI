@@ -44,6 +44,7 @@ public class TableService : ITableService
             SeatAmount = existingTable.SeatAmount,
             IsAvailable = existingTable.IsAvailable
         };
+
         return tableDTO;
 
     }

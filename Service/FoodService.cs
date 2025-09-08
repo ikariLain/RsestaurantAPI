@@ -1,0 +1,117 @@
+﻿using RestaurantAPI.DTOs.Food;
+using RestaurantAPI.Models;
+using RestaurantAPI.Repositories;
+using RestaurantAPI.Service.IService;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace RestaurantAPI.Service
+{
+    public class FoodService : IFoodService
+    {
+        private readonly FoodRepository _foodRepo;
+
+        public FoodService(FoodRepository foodRepo)
+        {
+            _foodRepo = foodRepo;
+        }
+
+        public async Task<int> CreateFoodAsync(Food food)
+        {
+            if (string.IsNullOrWhiteSpace(food.Name))
+            {
+                throw new ArgumentException("Food must have a valid name.");
+            }
+
+            if (food.Price <= 0)
+            {
+                throw new ArgumentException("Food must have a valid price.");
+            }
+
+            if (food.Description == null)
+                food.Description = "No description provided.";
+
+            if (food.IsAvailable == false)
+                food.IsAvailable = true;
+
+            return await _foodRepo.CreateFoodAsync(food);
+        }
+
+        public Task<bool> DeleteFoodAsync(int Id)
+        {
+            var existingFood = _foodRepo.GetFoodByIdAsync(Id).Result;
+
+            if (existingFood == null)
+            {
+                return Task.FromResult(false);
+            }
+
+            return _foodRepo.DeleteFoodAsync(Id);
+        }
+
+        public Task<Food> FoodByIdAsync(int id)
+        {
+            var food = _foodRepo.GetFoodByIdAsync(id).Result;
+
+            if (food == null)
+            {
+                throw new KeyNotFoundException($"Food with ID {id} not found.");
+            }
+
+            return Task.FromResult(food);
+        }
+
+        public Task<List<Food>> GetAllFoodsAsync()
+        {
+            var foods = _foodRepo.GetAllFoodsAsync().Result;
+
+            if (foods == null || foods.Count == 0)
+            {
+                throw new InvalidOperationException("No foods available.");
+            }
+            return Task.FromResult(foods);
+        }
+
+        public async Task<FoodDTO> UpdateFoodAsync(int id, FoodPatchDTO foodPatchDTO)
+        {
+            var existingFood = await _foodRepo.GetFoodByIdAsync(id);
+
+            if (existingFood == null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrEmpty(foodPatchDTO.Name))
+                existingFood.Name = foodPatchDTO.Name;
+            if (!string.IsNullOrEmpty(foodPatchDTO.Description))
+                existingFood.Description = foodPatchDTO.Description;
+            if (foodPatchDTO.Price.HasValue && foodPatchDTO.Price.Value > 0)
+                existingFood.Price = foodPatchDTO.Price.Value;
+            if (foodPatchDTO.IsPopular.HasValue)
+                existingFood.IsPopular = foodPatchDTO.IsPopular.Value;
+            if (foodPatchDTO.IsVegetarian.HasValue)
+                existingFood.IsVegetarian = foodPatchDTO.IsVegetarian.Value;
+            if (foodPatchDTO.IsAvailable.HasValue)
+                existingFood.IsAvailable = foodPatchDTO.IsAvailable.Value;
+            if (!string.IsNullOrEmpty(foodPatchDTO.ImageUrl))
+                existingFood.ImageUrl = foodPatchDTO.ImageUrl;
+
+
+
+            var updated = await _foodRepo.UpdateFoodAsync(existingFood);
+            if (!updated) return null;
+
+            var updatedFoodDTO = new FoodDTO
+            {
+                Name = existingFood.Name,
+                Description = existingFood.Description,
+                Price = existingFood.Price,
+                IsPopular = existingFood.IsPopular,
+                IsVegetarian = existingFood.IsVegetarian,
+                IsAvailable = existingFood.IsAvailable,
+                ImageUrl = existingFood.ImageUrl
+            };
+
+            return updatedFoodDTO;
+        }
+    }
+}
