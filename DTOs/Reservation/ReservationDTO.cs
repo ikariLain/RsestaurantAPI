@@ -4,11 +4,15 @@ namespace RestaurantAPI.DTOs.Reservation
 {
     public class ReservationDTO
     {
-        public int BookingOrderId { get; set; }
+        public int ReservationId { get; set; }
         public int User_FK { get; set; }
 
-        public string status { get; set; } = "Pending"; 
-        public DateTime BookingDate { get; set; } = DateTime.Now;
+        public DateOnly BookingDate { get; set; }
+
+        public DateTime StartTime { get; set; }
+
+        public string Status { get; set; } 
+        
 
         public int AmountOfGuests { get; set; }
 
