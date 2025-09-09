@@ -3,12 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using RestaurantAPI.Respositories;
-using RestaurantAPI.Respositories.IRepositories;
-using RestaurantAPI.Service;
-using RestaurantAPI.Service.IService;
-using RestaurantAPI.Repositories.IRepositories;
-using RestaurantAPI.Repositories;
+using RestaurantAPI.Extensions;
 
 namespace RestaurantAPI
 {
@@ -24,23 +19,10 @@ namespace RestaurantAPI
             });
 
             // Add services to the container.
+            builder.Services.AddRepositories();
 
-            //User 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserService, UserService>();
-            //Table 
-            builder.Services.AddScoped<ITableService, TableService>();
-            builder.Services.AddScoped<ITableRepostory, TableRepository>();
-            //Customer
-            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            builder.Services.AddScoped<ICustomerService, CustomerService>();
-            //Reservation
-            builder.Services.AddScoped<IReservationRepository, RerservationRepository>();
-            builder.Services.AddScoped<IReservationService, ReservationService>();
-            //Food
-            builder.Services.AddScoped<IFoodRepository, FoodRepository>();
-            builder.Services.AddScoped<IFoodService, FoodService>();
-             
+            builder.Services.AddServices();
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
