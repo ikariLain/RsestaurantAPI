@@ -6,10 +6,10 @@ namespace RestaurantAPI.Models
     public class ServiceOrder
     {
         [Key]
-        public int FoodOrderId { get; set; }
+        public int ServiceOrderId { get; set; }
 
         [ForeignKey("Food")]
-        public int? FoodId_FK { get; set; }
+        public int FoodId_FK { get; set; }
         public virtual Food Food { get; set; }
 
         [ForeignKey("Reservation")]
