@@ -2,14 +2,15 @@
 using RestaurantAPI.Models;
 using RestaurantAPI.Repositories;
 using RestaurantAPI.Service.IService;
+using RestaurantAPI.Repositories.IRepositories;
 
 namespace RestaurantAPI.Service
 {
     public class FoodService : IFoodService
     {
-        private readonly FoodRepository _foodRepo;
+        private readonly IFoodRepository _foodRepo;
 
-        public FoodService(FoodRepository foodRepo)
+        public FoodService(IFoodRepository foodRepo)
         {
             _foodRepo = foodRepo;
         }
@@ -61,15 +62,15 @@ namespace RestaurantAPI.Service
             return food;
         }
 
-        public Task<List<Food>> GetAllFoodsAsync()
+        public async Task<List<Food>> GetAllFoodsAsync()
         {
-            var foods = _foodRepo.GetAllFoodsAsync().Result;
+            var foodsList = await _foodRepo.GetAllFoodsAsync();
 
-            if (foods == null || foods.Count == 0)
+            if (foodsList == null )
             {
                 throw new InvalidOperationException("No foods available.");
             }
-            return Task.FromResult(foods);
+            return foodsList;
         }
 
         public async Task<FoodDTO> UpdateFoodAsync(int id, FoodPatchDTO foodPatchDTO)

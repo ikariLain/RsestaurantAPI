@@ -1,15 +1,15 @@
 using RestaurantAPI.DTOs.Table;
 using RestaurantAPI.Models;
-using RestaurantAPI.Respositories;
+using RestaurantAPI.Respositories.IRepositories;
 using RestaurantAPI.Service.IService;
 
 namespace RestaurantAPI.Service;
 
 public class TableService : ITableService
 {
-    private readonly TableRepository _tableRepo;
+    private readonly ITableRepostory _tableRepo;
 
-    public TableService(TableRepository tableRepo)
+    public TableService(ITableRepostory tableRepo)
     {
         _tableRepo = tableRepo;
     }
