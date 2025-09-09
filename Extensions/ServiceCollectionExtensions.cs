@@ -16,6 +16,7 @@ namespace RestaurantAPI.Extensions
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IReservationRepository, RerservationRepository>();
             services.AddScoped<IFoodRepository, FoodRepository>();
+            services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
             return services;
         }
 
@@ -26,6 +27,7 @@ namespace RestaurantAPI.Extensions
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IFoodService, FoodService>();
+            services.AddScoped<IServiceOrderService, ServiceOrderService>();
             return services;
         }
     }
