@@ -2,7 +2,6 @@
 using RestaurantAPI.Models;
 using RestaurantAPI.Repositories;
 using RestaurantAPI.Service.IService;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RestaurantAPI.Service
 {
@@ -36,28 +35,30 @@ namespace RestaurantAPI.Service
             return await _foodRepo.CreateFoodAsync(food);
         }
 
-        public Task<bool> DeleteFoodAsync(int Id)
+        public async Task<bool> DeleteFoodAsync(int Id)
         {
-            var existingFood = _foodRepo.GetFoodByIdAsync(Id).Result;
+            var existingFood = await _foodRepo.GetFoodByIdAsync(Id);
 
             if (existingFood == null)
             {
-                return Task.FromResult(false);
+                return false;
             }
 
-            return _foodRepo.DeleteFoodAsync(Id);
+            var deleteFood = await _foodRepo.DeleteFoodAsync(Id);
+
+            return true;
         }
 
-        public Task<Food> FoodByIdAsync(int id)
+        public async Task<Food> FoodByIdAsync(int id)
         {
-            var food = _foodRepo.GetFoodByIdAsync(id).Result;
+            var food = await _foodRepo.GetFoodByIdAsync(id);
 
             if (food == null)
             {
                 throw new KeyNotFoundException($"Food with ID {id} not found.");
             }
 
-            return Task.FromResult(food);
+            return food;
         }
 
         public Task<List<Food>> GetAllFoodsAsync()

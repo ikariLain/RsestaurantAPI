@@ -49,27 +49,27 @@ public class TableService : ITableService
 
     }
 
-    public Task<TableDTO> GetAllAvailableTableAsync()
+    public async Task<TableDTO> GetAllAvailableTableAsync()
     {
-        var availableTable = _tableRepo.GetAllAvailableTableAsync();
+        var availableTable = await _tableRepo.GetAllAvailableTableAsync();
 
         if (availableTable == null)
         {
             return null;
         }
 
-        var tableDTO = availableTable.ContinueWith(t => new TableDTO
+        var tableDTO = new TableDTO
         {
-            TableId = t.Result.TableId,
-            SeatAmount = t.Result.SeatAmount,
-            IsAvailable = t.Result.IsAvailable
-        });
+            TableId = availableTable.TableId,
+            SeatAmount = availableTable.SeatAmount,
+            IsAvailable = availableTable.IsAvailable
+        };
 
         return tableDTO;
     }
 
 
-    public Task<int> CreateTableAsync(TableCreateDTO TableDTO)
+    public async Task<int> CreateTableAsync(TableCreateDTO TableDTO)
     {
         var table = new Table
         {
@@ -78,7 +78,7 @@ public class TableService : ITableService
             IsAvailable = TableDTO.IsAvailable
         };
 
-        var newTableId = _tableRepo.CreateTableAsync(table);
+        var newTableId = await _tableRepo.CreateTableAsync(table);
 
         return newTableId;
     }

@@ -3,6 +3,7 @@ using RestaurantAPI.DTOs.Reservation;
 using RestaurantAPI.Models;
 using RestaurantAPI.Respositories.IRepositories;
 using RestaurantAPI.Service.IService;
+using System.Formats.Asn1;
 
 namespace RestaurantAPI.Service
 {
@@ -24,7 +25,6 @@ namespace RestaurantAPI.Service
 
             return checkTable;
         }
-
 
         public async Task<int> CreateReservation(ReservationCreateDTO reservationDTO)
         {
@@ -83,20 +83,20 @@ namespace RestaurantAPI.Service
             return Task.FromResult(reservationDTOs);
         }
 
-        public Task<ReservationDTO> GetReservationIdAsync(int id)
+        public async Task<ReservationDTO> GetReservationIdAsync(int id)
         {
-           var reservation = _reservationRepo.GetReservationByIdAsync(id);
+           var reservation = await _reservationRepo.GetReservationByIdAsync(id);
 
             if (reservation == null) throw new Exception("Reservation not found");
 
-            var reservationDTO = reservation.ContinueWith(r => new ReservationDTO
+            var reservationDTO =  new ReservationDTO
             {
-                ReservationId = r.Result.ReservationId,
-                BookingDate = r.Result.BookingDate,
-                StartTime = r.Result.StartTime,
-                AmountOfGuests = r.Result.AmountOfGuests,
-                Status = r.Result.status
-            });
+                ReservationId = reservation.ReservationId,
+                BookingDate = reservation.BookingDate,
+                StartTime = reservation.StartTime,
+                AmountOfGuests = reservation.AmountOfGuests,
+                Status = reservation.status
+            };
 
             return reservationDTO;
         }
