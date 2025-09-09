@@ -14,7 +14,6 @@ namespace RestaurantAPI.Service
             _userRepo = userRepo;
         }
 
-        //TODO: Implement CreateUserAsync method
         public async Task<int> CreateUserAsync(UserCreateDTO UserDTO)
         {
             var user = new User
