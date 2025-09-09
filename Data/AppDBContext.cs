@@ -5,7 +5,7 @@ namespace RestaurantAPI.Data
 {
     public class AppDBContext : DbContext
     {
-        public AppDBContext(DbContextOptions<AppDBContext> options)
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
 
         }
@@ -16,6 +16,7 @@ namespace RestaurantAPI.Data
         public DbSet<ServiceOrder> FoodOrders { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<ServiceOrder> ServiceOrders { get; set; }
 
     }
 }
