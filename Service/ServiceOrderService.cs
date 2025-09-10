@@ -19,14 +19,32 @@ namespace RestaurantAPI.Service
 
         public async Task<int> CreateServiceOrderAsync(ServiceOrderCreateDTO serviceOrderDTO)
         {
-            var newServiceOrder = new ServiceOrder
+           var newServiceOrder = new ServiceOrder
             {
-                FoodId_FK = serviceOrderDTO.FoodId_FK.Value,
                 Reservation_FK = serviceOrderDTO.Reservation_FK,
-                TotalPriceAmount = serviceOrderDTO.TotalPriceAmount,
-                Quantity = serviceOrderDTO.Quantity,
-                Note = serviceOrderDTO.Note
+                Note = serviceOrderDTO.Note,
+                TotalPriceAmount = 0, 
+                OrderedFoods = new List<ServiceOrderFood>()
             };
+
+            decimal totalPrice = 0;
+
+            foreach (var foodItem in serviceOrderDTO.Foods)
+            {
+                var orderFood = new ServiceOrderFood
+                {
+                    FoodId = foodItem.FoodId,
+                    Quantity = foodItem.Quantity,
+                    Price = foodItem.Price
+                };
+
+                totalPrice += foodItem.Price * foodItem.Quantity;
+
+                newServiceOrder.OrderedFoods.Add(orderFood);
+            }
+
+            newServiceOrder.TotalPriceAmount = totalPrice;
+
 
             return await _serviceOrderRepo.CreateServiceOrderAsync(newServiceOrder);
         }
@@ -43,26 +61,57 @@ namespace RestaurantAPI.Service
             return  await _serviceOrderRepo.DeleteServiceOrderAsync(id);
         }
 
-        public async Task<List<ServiceOrder>> GetAllServiceOrdersAsync()
+        public async Task<List<ServiceOrderDTO>> GetAllServiceOrdersAsync()
         {
-            var serviceOrdersList = await _serviceOrderRepo.GetAllServiceOrdersAsync();
+            var serviceOrders = await _serviceOrderRepo.GetAllServiceOrdersAsync();
 
-            if (serviceOrdersList == null)
+            if (serviceOrders == null)
             {
                 throw new InvalidCastException("No Serviceorders found.");
             }
 
-            return serviceOrdersList;
+            var serviceOrdersDTO = serviceOrders.Select(s => new ServiceOrderDTO
+            {
+                ServiceOrderId = s.ServiceOrderId,
+                Reservation_FK = s.Reservation_FK,
+                TotalPriceAmount = s.TotalPriceAmount,
+                Note = s.Note,
+                Foods = s.OrderedFoods.Select(of => new ServiceOrderFood
+                {
+                    FoodId = of.FoodId,
+                    Quantity = of.Quantity,
+                    Price = of.Price
+                }).ToList()
+            }).ToList();
+
+
+            return serviceOrdersDTO;
         }
 
-        public async Task<ServiceOrder> GetServiceOrderByIdAsync(int id)
+        public async Task<ServiceOrderDTO> GetServiceOrderByIdAsync(int id)
         {
             var serviceOrder = await _serviceOrderRepo.GetServiceOrderByIdAsync(id);
+
             if (serviceOrder == null)
             {
                 throw new KeyNotFoundException($"Serviceorder with ID {id} not found.");
             }
-            return serviceOrder;
+
+            var serviceOrderDTO = new ServiceOrderDTO
+            {
+                ServiceOrderId = serviceOrder.ServiceOrderId,
+                Reservation_FK = serviceOrder.Reservation_FK,
+                TotalPriceAmount = serviceOrder.TotalPriceAmount,
+                Note = serviceOrder.Note,
+                Foods = serviceOrder.OrderedFoods.Select(of => new ServiceOrderFood
+                {
+                    FoodId = of.FoodId,
+                    Quantity = of.Quantity,
+                    Price = of.Price
+                }).ToList()
+            };
+
+            return serviceOrderDTO;
         }
 
         public async Task<ServiceOrderDTO> UpdateServiceOrderAsync(int id ,ServiceOrderPatchDTO serviceOrderPatch)
@@ -74,14 +123,33 @@ namespace RestaurantAPI.Service
                 return null;
             }
 
-            if (serviceOrderPatch.FoodId_FK.HasValue)
-                existingServiceOrder.FoodId_FK = serviceOrderPatch.FoodId_FK.Value;
+            if (serviceOrderPatch.Foods != null && serviceOrderPatch.Foods.Any())
+            {
+                existingServiceOrder.OrderedFoods.Clear();
+
+                decimal totalPrice = 0;
+
+                
+                foreach (var foodItem in serviceOrderPatch.Foods)
+                {
+                    var orderFood = new ServiceOrderFood
+                    {
+                        FoodId = foodItem.FoodId,
+                        Quantity = foodItem.Quantity,
+                        Price = foodItem.Price
+                    };
+                    totalPrice += foodItem.Price * foodItem.Quantity;
+                    existingServiceOrder.OrderedFoods.Add(orderFood);
+                }
+
+                existingServiceOrder.TotalPriceAmount = totalPrice;
+            }
+
+
             if (serviceOrderPatch.Reservation_FK.HasValue)
                 existingServiceOrder.Reservation_FK = serviceOrderPatch.Reservation_FK.Value;
-            if (serviceOrderPatch.TotalPriceAmount.HasValue && serviceOrderPatch.TotalPriceAmount.Value > 0)
-                existingServiceOrder.TotalPriceAmount = serviceOrderPatch.TotalPriceAmount.Value;
-            if (serviceOrderPatch.Quantity.HasValue && serviceOrderPatch.Quantity.Value > 0)
-                existingServiceOrder.Quantity = serviceOrderPatch.Quantity.Value;
+            
+           
             if (!string.IsNullOrEmpty(serviceOrderPatch.Note))
                 existingServiceOrder.Note = serviceOrderPatch.Note;
 
@@ -91,14 +159,8 @@ namespace RestaurantAPI.Service
                 return null;
             }
 
-            var UpdatedServiceOrder = new ServiceOrderDTO
-            {
-                FoodId_FK = existingServiceOrder.FoodId_FK,
-                Reservation_FK = existingServiceOrder.Reservation_FK,
-                TotalPriceAmount = existingServiceOrder.TotalPriceAmount,
-                Quantity = existingServiceOrder.Quantity,
-                Note = existingServiceOrder.Note
-            };
+            var UpdatedServiceOrder = await GetServiceOrderByIdAsync(id);
+
 
             return UpdatedServiceOrder;
 

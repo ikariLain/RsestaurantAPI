@@ -8,8 +8,8 @@ namespace RestaurantAPI.Service.IService
     {
         Task<int> CreateServiceOrderAsync(ServiceOrderCreateDTO serviceOrderDTO);
         Task<bool> DeleteServiceOrderAsync(int id);
-        Task<List<ServiceOrder>> GetAllServiceOrdersAsync();
-        Task<ServiceOrder> GetServiceOrderByIdAsync(int id);
+        Task<List<ServiceOrderDTO>> GetAllServiceOrdersAsync();
+        Task<ServiceOrderDTO> GetServiceOrderByIdAsync(int id);
         Task<ServiceOrderDTO> UpdateServiceOrderAsync(int id, ServiceOrderPatchDTO serviceOrderPatch);
     }
 }

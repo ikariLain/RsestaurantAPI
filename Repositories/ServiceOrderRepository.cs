@@ -15,18 +15,20 @@ namespace RestaurantAPI.Repositories
 
         public async Task<int> CreateServiceOrderAsync(ServiceOrder serviceOrder)
         {
-            var newServiceOrder = new ServiceOrder
-            {
-                FoodId_FK = serviceOrder.FoodId_FK,
-                Reservation_FK = serviceOrder.Reservation_FK,
-                TotalPriceAmount = serviceOrder.TotalPriceAmount,
-                Quantity = serviceOrder.Quantity,
-                Note = serviceOrder.Note
-            };
-
-            _context.Add(newServiceOrder);
+            _context.Add(serviceOrder);
             await _context.SaveChangesAsync();
-            return newServiceOrder.ServiceOrderId;
+
+            if (serviceOrder.OrderedFoods != null && serviceOrder.OrderedFoods.Any())
+            {
+                foreach (var of in serviceOrder.OrderedFoods)
+                {
+                    of.ServiceOrderId = serviceOrder.ServiceOrderId;
+                    _context.serviceOrderFoods.Add(of);
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            return serviceOrder.ServiceOrderId;
         }
 
         public async Task<bool> DeleteServiceOrderAsync(int id)
