@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantAPI.Data;
 
@@ -11,9 +12,11 @@ using RestaurantAPI.Data;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250909181334_FixStaticSeedData")]
+    partial class FixStaticSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,37 +194,6 @@ namespace RestaurantAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.ReservationTable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TableId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReservationId");
-
-                    b.HasIndex("TableId");
-
-                    b.ToTable("ReservationTables");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ReservationId = 1,
-                            TableId = 1
-                        });
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.ServiceOrder", b =>
                 {
                     b.Property<int>("ServiceOrderId")
@@ -277,10 +249,15 @@ namespace RestaurantAPI.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SeatAmount")
                         .HasColumnType("int");
 
                     b.HasKey("TableId");
+
+                    b.HasIndex("ReservationId");
 
                     b.ToTable("Tables");
 
@@ -373,25 +350,6 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("RestaurantAPI.Models.ReservationTable", b =>
-                {
-                    b.HasOne("RestaurantAPI.Models.Reservation", "Reservation")
-                        .WithMany("ReservationTables")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestaurantAPI.Models.Table", "Table")
-                        .WithMany()
-                        .HasForeignKey("TableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reservation");
-
-                    b.Navigation("Table");
-                });
-
             modelBuilder.Entity("RestaurantAPI.Models.ServiceOrder", b =>
                 {
                     b.HasOne("RestaurantAPI.Models.Food", "Food")
@@ -411,11 +369,18 @@ namespace RestaurantAPI.Migrations
                     b.Navigation("Reservation");
                 });
 
+            modelBuilder.Entity("RestaurantAPI.Models.Table", b =>
+                {
+                    b.HasOne("RestaurantAPI.Models.Reservation", null)
+                        .WithMany("Tables")
+                        .HasForeignKey("ReservationId");
+                });
+
             modelBuilder.Entity("RestaurantAPI.Models.Reservation", b =>
                 {
-                    b.Navigation("ReservationTables");
-
                     b.Navigation("ServiceOrders");
+
+                    b.Navigation("Tables");
                 });
 #pragma warning restore 612, 618
         }
