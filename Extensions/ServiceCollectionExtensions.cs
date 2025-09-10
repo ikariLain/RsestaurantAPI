@@ -12,7 +12,7 @@ namespace RestaurantAPI.Extensions
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITableRepostory, TableRepository>();
+            services.AddScoped<ITableRepository, TableRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IReservationRepository, RerservationRepository>();
             services.AddScoped<IFoodRepository, FoodRepository>();
