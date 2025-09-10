@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantAPI.DTOs.ServiceOrder
 {
     public class ServiceOrderCreateDTO
     {
         public int ServiceOrderId { get; set; }
-        //Can be null if food is not ordered
-        public int? FoodId_FK { get; set; }
 
         [Required(ErrorMessage = "Need a Reservation to make a ServiceOrder")]
         public int Reservation_FK { get; set; }
@@ -19,5 +18,6 @@ namespace RestaurantAPI.DTOs.ServiceOrder
         public int Quantity { get; set; }
         [StringLength(500, ErrorMessage = "Note is over 500 character")]
         public string? Note { get; set; }
+        public List<ServiceOrderFood> Foods { get; set; }
     }
 }

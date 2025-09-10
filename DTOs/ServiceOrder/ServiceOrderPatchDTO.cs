@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantAPI.DTOs.ServiceOrder
 {
     public class ServiceOrderPatchDTO
     {
-        public int? FoodId_FK { get; set; }
+        public List<ServiceOrderFood> Foods { get; set; }
         public int? Reservation_FK { get; set; }
 
         [Range(0, 50000, ErrorMessage = "Total price must be between 0 and 50000")]

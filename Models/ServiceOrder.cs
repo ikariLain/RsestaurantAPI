@@ -7,10 +7,7 @@ namespace RestaurantAPI.Models
     {
         [Key]
         public int ServiceOrderId { get; set; }
-
-        [ForeignKey("Food")]
-        public int FoodId_FK { get; set; }
-        public virtual Food Food { get; set; }
+        public List<ServiceOrderFood> OrderedFoods { get; set; }
 
         [ForeignKey("Reservation")]
         public int Reservation_FK { get; set; }
