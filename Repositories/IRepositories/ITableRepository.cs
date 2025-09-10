@@ -2,7 +2,7 @@
 
 namespace RestaurantAPI.Respositories.IRepositories
 {
-    public interface ITableRepostory
+    public interface ITableRepository
     {
         Task<List<Table>> GetAllTableAsync();
         Task<Table> GetTableByIdAsync(int tableId);
