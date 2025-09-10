@@ -5,7 +5,7 @@ using RestaurantAPI.Respositories.IRepositories;
 
 namespace RestaurantAPI.Respositories
 {
-    public class TableRepository : ITableRepostory
+    public class TableRepository : ITableRepository
     {
         private readonly AppDBContext _context;
 
