@@ -10,9 +10,9 @@ namespace RestaurantAPI.Service
     public class ReservationService : IReservationService
     {
         private readonly IReservationRepository _reservationRepo;
-        private readonly ITableRepostory _tableRepo;
+        private readonly ITableRepository _tableRepo;
 
-        public ReservationService(IReservationRepository reservationRepo, ITableRepostory tableRepostory)
+        public ReservationService(IReservationRepository reservationRepo, ITableRepository tableRepostory)
         {
             _reservationRepo = reservationRepo;
             _tableRepo = tableRepostory;
@@ -40,14 +40,17 @@ namespace RestaurantAPI.Service
 
             var reservation = new Reservation
             {
-                Customer_FK = reservationDTO.User_FK,
-                Tables = tables,
+                Customer_FK = reservationDTO.Customer_Fk,
                 status = reservationDTO.status ?? "Pending",
                 BookingDate = reservationDTO.BookingDate,
                 StartTime = reservationDTO.StartTime,
                 Duration = reservationDTO.Duration ?? TimeSpan.FromHours(2),
                 AmountOfGuests = reservationDTO.AmountOfGuests,
-                AmountOfTables = reservationDTO.AmountOfTables
+                AmountOfTables = reservationDTO.AmountOfTables,
+                ReservationTables = tables.Select(t => new ReservationTable
+                {
+                    TableId = t.TableId
+                }).ToList()
             };
 
             
@@ -106,9 +109,36 @@ namespace RestaurantAPI.Service
             var reservation = await _reservationRepo.GetReservationByIdAsync(id);
             if (reservation == null) throw new Exception("Reservation not found");
 
-            
+
+            if (reservationPatchDTO.Customer_Fk.HasValue)
+                reservation.Customer_FK = reservationPatchDTO.Customer_Fk.Value;
+
+            if (reservationPatchDTO.Tables != null && reservationPatchDTO.Tables.Any())
+            {
+                var tablesAvailable = await IsTableAvailableAsync(
+                    reservationPatchDTO.Tables,
+                    reservationPatchDTO.BookingDate ?? reservation.BookingDate,
+                    reservationPatchDTO.StartTime ?? reservation.StartTime);
+
+                if (!tablesAvailable)
+                    throw new Exception("Selected tables are not available at this time.");
+
+                var tables = await _tableRepo.GetListOfTablesByIdsAsync(reservationPatchDTO.Tables);
+
+                reservation.ReservationTables = tables.Select(t => new ReservationTable
+                {
+                    TableId = t.TableId,
+                    ReservationId = reservation.ReservationId
+                }).ToList();
+
+                reservation.AmountOfTables = tables.Count;
+            }
+
             if (reservationPatchDTO.Status != null)
                 reservation.status = reservationPatchDTO.Status;
+
+            if (reservationPatchDTO.BookingDate.HasValue)
+                reservation.BookingDate = reservationPatchDTO.BookingDate.Value;
 
             if (reservationPatchDTO.StartTime.HasValue)
                 reservation.StartTime = reservationPatchDTO.StartTime.Value;

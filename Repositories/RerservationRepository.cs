@@ -61,19 +61,21 @@ public class RerservationRepository : IReservationRepository
 
     }
 
-    public async Task<bool> AreTablesAvailableAsync(List<int> tableId, DateOnly bookingdate, DateTime StartTime)
+    public async Task<bool> AreTablesAvailableAsync(List<int> tableId, DateOnly bookingDate, DateTime StartTime)
     {
         var endTime = StartTime.AddHours(2);
 
-       var isTableAvailable = !await _context.Reservations
-            .AnyAsync(r =>
-            r.BookingDate == bookingdate &&
-            r.Tables.Any(t => tableId.Contains(t.TableId)) &&
-            (r.StartTime < endTime &&
-            r.StartTime.AddHours(2) > StartTime)
-       );
 
-        return isTableAvailable;
+        var overlapExists = await _context.ReservationTables
+            .Include(rt => rt.Reservation)
+            .AnyAsync(rt =>
+                tableId.Contains(rt.TableId) &&
+                rt.Reservation.BookingDate == bookingDate &&
+                (rt.Reservation.StartTime < endTime &&
+                 rt.Reservation.StartTime.AddHours(2) > StartTime)
+            );
+
+        return overlapExists;
 
     }
 
