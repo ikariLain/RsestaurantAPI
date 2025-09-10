@@ -10,7 +10,7 @@ namespace RestaurantAPI.Models
         [ForeignKey("Customer")]
         public int Customer_FK { get; set; }
         public virtual Customer Customer { get; set; }
-        public List<Table> Tables { get; set; }
+        public List<ReservationTable> ReservationTables { get; set; }
         public List<ServiceOrder> ServiceOrders { get; set; }
         public string status { get; set; } 
         public DateOnly BookingDate { get; set; } 
