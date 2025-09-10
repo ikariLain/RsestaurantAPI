@@ -7,9 +7,9 @@ namespace RestaurantAPI.Service;
 
 public class TableService : ITableService
 {
-    private readonly ITableRepostory _tableRepo;
+    private readonly ITableRepository _tableRepo;
 
-    public TableService(ITableRepostory tableRepo)
+    public TableService(ITableRepository tableRepo)
     {
         _tableRepo = tableRepo;
     }
