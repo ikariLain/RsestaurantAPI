@@ -1,4 +1,4 @@
-﻿using RestaurantAPI.DTOs.User;
+﻿using RestaurantAPI.DTOs.Customer;
 using RestaurantAPI.Models;
 using RestaurantAPI.Respositories.IRepositories;
 using RestaurantAPI.Service.IService;
@@ -26,30 +26,30 @@ namespace RestaurantAPI.Service
 
             var CustomerId = await _customerRepo.CreateCustomerAsync(customer);
 
-            return CustomerId; 
+            return CustomerId;
         }
 
         public async Task<bool> DeleteCustomerAsync(int Id)
         {
             var existingCustomer = await _customerRepo.GetCustomerByIdAsync(Id);
-            
+
             if (existingCustomer == null )
             {
                 return false;
             }
-            
+
             var deleteCustomer = await _customerRepo.DeleteCustomerAsync(Id);
 
             return deleteCustomer;
         }
-         
+
         public async Task<List<CustomerDTO>> GetAllCustomerAsync()
         {
             var customers = await _customerRepo.GetAllCustomersAsync();
 
             var customerDTO = customers.Select(c =>  new CustomerDTO
             {
-                CustomserId = c.CustomerId,
+                CustomerId = c.CustomerId,
                 Name = c.Name,
                 Email = c.Email,
                 PhoneNumber = c.PhoneNumber
@@ -65,11 +65,12 @@ namespace RestaurantAPI.Service
 
             if (customer == null)
             {
-                return null; 
+                return null;
             }
 
             var customerDTO = new CustomerDTO
             {
+                CustomerId = customer.CustomerId,
                 Name = customer.Name,
                 Email = customer.Email,
                 PhoneNumber = customer.PhoneNumber
@@ -90,7 +91,7 @@ namespace RestaurantAPI.Service
             if (!string.IsNullOrEmpty(customerPatch.Name))
                 existingCustomer.Name = customerPatch.Name;
             if (!string.IsNullOrEmpty(customerPatch.PhoneNumber))
-                existingCustomer.PhoneNumber = customerPatch.PhoneNumber; 
+                existingCustomer.PhoneNumber = customerPatch.PhoneNumber;
             if (!string.IsNullOrEmpty(customerPatch.Email))
                 existingCustomer.Email = customerPatch.Email;
 

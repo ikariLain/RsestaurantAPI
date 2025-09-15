@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantAPI.DTOs.User
+namespace RestaurantAPI.DTOs.Customer
 {
     public class CustomerCreateDTO
     {
