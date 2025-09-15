@@ -13,7 +13,7 @@ namespace RestaurantAPI.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Food> Foods { get; set; }
-        public DbSet<FoodOrder> FoodOrders { get; set; }
+        public DbSet<ServiceOrderFood> ServiceOrderFood { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<ServiceOrder> ServiceOrders { get; set; }

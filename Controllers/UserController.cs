@@ -18,21 +18,21 @@ namespace RestaurantAPI.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<CustomerDTO>>> GetAllUsers()
+        public async Task<ActionResult<List<UserDTO>>> GetAllUsers()
         {
             var users = await _UserService.GetAllUserAsync();
-           
+
             return Ok(users);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<CustomerDTO>> CreateUser(UserCreateDTO user)
+        public async Task<ActionResult<UserDTO>> CreateUser(UserCreateDTO user)
         {
             var userId = await _UserService.CreateUserAsync(user);
 
-            return CreatedAtAction(nameof(GetAllUsers), new { id = userId}); 
-            
+            return CreatedAtAction(nameof(GetAllUsers), new { id = userId});
+
         }
 
         [HttpDelete("{Id}")]
@@ -40,11 +40,11 @@ namespace RestaurantAPI.Controllers
         public async Task<ActionResult> DeleteUser(int id)
         {
             var success  = await _UserService.DeleteUserAsync(id);
-            
+
             if (!success)
                 return NotFound();
-            
-            
+
+
             return NoContent();
         }
 
