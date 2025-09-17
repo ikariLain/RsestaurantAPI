@@ -1,4 +1,4 @@
-﻿using RestaurantAPI.DTOs.User;
+﻿using RestaurantAPI.DTOs.Customer;
 
 namespace RestaurantAPI.Service.IService
 {

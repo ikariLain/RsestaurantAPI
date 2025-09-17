@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.DTOs.Table;
-using RestaurantAPI.DTOs.User;
+using RestaurantAPI.DTOs.Customer;
 using RestaurantAPI.Service.IService;
 
 namespace RestaurantAPI.Controllers
@@ -22,7 +22,7 @@ namespace RestaurantAPI.Controllers
         public async Task<ActionResult<List<CustomerDTO>>> GetAllCustomer()
         {
             var users = await _CustomerService.GetAllCustomerAsync();
-           
+
             return Ok(users);
         }
 
@@ -32,8 +32,8 @@ namespace RestaurantAPI.Controllers
         {
             var custumerId = await _CustomerService.CreateCustomerAsync(customer);
 
-            return CreatedAtAction(nameof(GetAllCustomer), new { id = custumerId }); 
-            
+            return CreatedAtAction(nameof(GetAllCustomer), new { id = custumerId });
+
         }
 
         [HttpPatch]

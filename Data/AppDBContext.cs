@@ -13,7 +13,7 @@ namespace RestaurantAPI.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Food> Foods { get; set; }
-        public DbSet<ServiceOrder> FoodOrders { get; set; }
+        public DbSet<ServiceOrderFood> ServiceOrderFood { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<ServiceOrder> ServiceOrders { get; set; }
@@ -28,13 +28,13 @@ namespace RestaurantAPI.Data
             // Many-to-many via ReservationTable
             modelBuilder.Entity<ReservationTable>()
                 .HasOne(rt => rt.Reservation)
-                .WithMany(r => r.ReservationTables)   
+                .WithMany(r => r.ReservationTables)
                 .HasForeignKey(rt => rt.ReservationId);
 
 
             modelBuilder.Entity<ReservationTable>()
                .HasOne(rt => rt.Table)
-               .WithMany()   
+               .WithMany()
                .HasForeignKey(rt => rt.TableId);
 
 
@@ -59,27 +59,27 @@ namespace RestaurantAPI.Data
                 new User { UserId = 2, FirstName = "John", LastName = "Doe", Email = "john@example.com", PasswordHash = "hashedpassword456", Role = "Customer" }
             );
 
-            
+
             modelBuilder.Entity<Table>().HasData(
                 new Table { TableId = 1, SeatAmount = 2, IsAvailable = true },
                 new Table { TableId = 2, SeatAmount = 4, IsAvailable = true },
                 new Table { TableId = 3, SeatAmount = 6, IsAvailable = false }
             );
 
-            
+
             modelBuilder.Entity<Food>().HasData(
                 new Food { FoodId = 1, Name = "Margherita Pizza", Price = 89, Description = "Classic cheese pizza", IsPopular = true, IsVegetarian = true, IsAvailable = true, ImageUrl = "pizza.jpg" },
                 new Food { FoodId = 2, Name = "Cheeseburger", Price = 120, Description = "Beef burger with cheese", IsPopular = true, IsVegetarian = false, IsAvailable = true, ImageUrl = "burger.jpg" },
                 new Food { FoodId = 3, Name = "Caesar Salad", Price = 75, Description = "Fresh salad with chicken and dressing", IsPopular = false, IsVegetarian = false, IsAvailable = true, ImageUrl = "salad.jpg" }
             );
 
-            
+
             modelBuilder.Entity<Customer>().HasData(
                 new Customer { CustomerId = 1, Name = "Alice Johnson", Email = "alice@example.com", PhoneNumber = "0701234567" },
                 new Customer { CustomerId = 2, Name = "Bob Smith", Email = "bob@example.com", PhoneNumber = "0709876543" }
             );
 
-            
+
             modelBuilder.Entity<Reservation>().HasData(
                 new Reservation
                 {
@@ -94,7 +94,7 @@ namespace RestaurantAPI.Data
                 }
             );
 
-            
+
             modelBuilder.Entity<ServiceOrder>().HasData(
                 new ServiceOrder
                 {
@@ -112,7 +112,7 @@ namespace RestaurantAPI.Data
 
             modelBuilder.Entity<ServiceOrderFood>().HasData(
                  new ServiceOrderFood { ServiceOrderId = 1, FoodId = 1, Quantity = 1, Price = 89 },
-                 new ServiceOrderFood { ServiceOrderId = 1, FoodId = 2, Quantity = 1, Price = 89 } 
+                 new ServiceOrderFood { ServiceOrderId = 1, FoodId = 2, Quantity = 1, Price = 89 }
             );
 
         }
