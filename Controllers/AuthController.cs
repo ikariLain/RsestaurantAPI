@@ -9,6 +9,8 @@ using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Controllers
 {
+    [ApiController]
+    [Route("api/[Controller]")]
     public class AuthController : Controller
     {
         private readonly AppDBContext _context;
@@ -31,6 +33,7 @@ namespace RestaurantAPI.Controllers
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
+
             var newAccount = new User
             {
                 FirstName = newUser.FirstName,
@@ -45,19 +48,19 @@ namespace RestaurantAPI.Controllers
 
             return Ok();
         }
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginUserDTO loginUser)
         {
 
             var user = _context.Users.FirstOrDefault(u => u.Email == loginUser.Email);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginUser.Password, user.PasswordHash))
+            if (user == null )
             {
                 return Unauthorized("Invalid email or password.");
             }
 
             var PasswordMatch = BCrypt.Net.BCrypt.Verify(loginUser.Password, user.PasswordHash);
 
-            if (PasswordMatch)
+            if (!PasswordMatch)
             {
                 return Unauthorized("Invalid email or password.");
             }

@@ -46,7 +46,7 @@ namespace RestaurantAPI.Repositories
 
         public async Task<List<ServiceOrder>> GetAllServiceOrdersAsync()
         {
-            var serviceOrders = await _context.ServiceOrders.ToListAsync();
+            var serviceOrders = await _context.ServiceOrders.Include(s => s.OrderedFoods).ToListAsync();
             return serviceOrders;
         }
 

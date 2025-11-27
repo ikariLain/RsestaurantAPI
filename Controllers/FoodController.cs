@@ -17,6 +17,7 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet]
+
         public async Task<ActionResult<List<Food>>> GetAllFoods()
         {
             try

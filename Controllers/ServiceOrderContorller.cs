@@ -5,9 +5,10 @@ using RestaurantAPI.Service.IService;
 
 namespace RestaurantAPI.Controllers
 {
+
     [ApiController]
-    [Route("api/[controller]")]
-    public class ServiceOrderContorller: ControllerBase
+    [Route("api/ServiceOrder")]
+    public class ServiceOrderContorller: Controller
     {
         private readonly IServiceOrderService _serviceOrderService;
 

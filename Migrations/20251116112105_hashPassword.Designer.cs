@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantAPI.Data;
 
@@ -11,9 +12,11 @@ using RestaurantAPI.Data;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20251116112105_hashPassword")]
+    partial class hashPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -384,7 +387,7 @@ namespace RestaurantAPI.Migrations
                             Email = "admin@restaurant.com",
                             FirstName = "Admin",
                             LastName = "User",
-                            PasswordHash = "$2a$11$GvvNedRSjv4TLJfDEyyBuelua9YuyckZ.OJOc22dPqkQEuuDR73iC",
+                            PasswordHash = "$2a$12$asWCam7g0AylGer9M2m0muTShueKbWq8mKWFq5LYId3w.vIDGTsr6/8DcJkBRi",
                             Role = "Admin"
                         },
                         new
@@ -393,7 +396,7 @@ namespace RestaurantAPI.Migrations
                             Email = "john@example.com",
                             FirstName = "John",
                             LastName = "Doe",
-                            PasswordHash = "$2a$11$6jVUqYX0Ce8xqyRUF4PYc.DbeBpOBl/nscMVrFokKq4HBMbO83k6y",
+                            PasswordHash = "$2a$12$WxJI1zUGVNaqfDBmsf/CU.GLRIvJB5eUabYS/gVA2Qg0G3dZNETge",
                             Role = "Customer"
                         });
                 });

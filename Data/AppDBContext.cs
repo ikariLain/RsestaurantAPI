@@ -13,7 +13,6 @@ namespace RestaurantAPI.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Food> Foods { get; set; }
-        public DbSet<ServiceOrderFood> ServiceOrderFood { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<ServiceOrder> ServiceOrders { get; set; }
@@ -55,8 +54,10 @@ namespace RestaurantAPI.Data
 
 
             modelBuilder.Entity<User>().HasData(
-                new User { UserId = 1, FirstName = "Admin", LastName = "User", Email = "admin@restaurant.com", PasswordHash = "hashedpassword123", Role = "Admin" },
-                new User { UserId = 2, FirstName = "John", LastName = "Doe", Email = "john@example.com", PasswordHash = "hashedpassword456", Role = "Customer" }
+                //Password for admin is "AdminPassword123"
+                new User { UserId = 1, FirstName = "Admin", LastName = "User", Email = "admin@restaurant.com", PasswordHash = "$2a$11$GvvNedRSjv4TLJfDEyyBuelua9YuyckZ.OJOc22dPqkQEuuDR73iC", Role = "Admin" },
+                //Password for john is "UserPassword456
+                new User { UserId = 2, FirstName = "John", LastName = "Doe", Email = "john@example.com", PasswordHash = "$2a$11$6jVUqYX0Ce8xqyRUF4PYc.DbeBpOBl/nscMVrFokKq4HBMbO83k6y", Role = "Customer" }
             );
 
 
